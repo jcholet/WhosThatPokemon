@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "965234284373",
+    "project_id": "pokemon-979c3",
+    "storage_bucket": "pokemon-979c3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:965234284373:android:8f4de6e627269f183701dc",
+        "android_client_info": {
+          "package_name": "com.example.androidgame"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "965234284373-d17kleroak99mi207812vbb258044o66.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMXe7NCYqCuKoREEtmoLEnU2BMk0JmtbU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "965234284373-d17kleroak99mi207812vbb258044o66.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
