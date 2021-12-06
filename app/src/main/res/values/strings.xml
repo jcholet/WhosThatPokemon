@@ -8,4 +8,7 @@
     <string name="training">Entrainement</string>
     <string name="competition">Competition</string>
     <string name="results">Resultats</string>
+    <string name="first_page">First page</string>
+    <string name="second_page">Second page</string>
+    <string name="third_page">Third page</string>
 </resources>

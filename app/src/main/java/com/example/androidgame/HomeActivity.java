@@ -3,13 +3,17 @@ package com.example.androidgame;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class HomeActivity extends AppCompatActivity {
@@ -19,6 +23,7 @@ public class HomeActivity extends AppCompatActivity {
     private MaterialButton goToCompetition;
     private MaterialButton goToResults;
     private ImageView signOut;
+    private ImageView help;
     private GameMusicHandler gameMusicHandler;
 
     @Override
@@ -35,6 +40,8 @@ public class HomeActivity extends AppCompatActivity {
         goToTraining = (MaterialButton) findViewById(R.id.goToTraining);
         goToCompetition = (MaterialButton) findViewById(R.id.goToCompetition);
         goToResults = (MaterialButton) findViewById(R.id.goToResults);
+        help = (ImageView) findViewById(R.id.help);
+
         sharedPreferences = getSharedPreferences("com.example.androidgame", MODE_PRIVATE);
 
         if (sharedPreferences.getBoolean("firstrun", true)) {
@@ -43,6 +50,22 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         gameMusicHandler.playHomeTheme();
+
+        help.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(HomeActivity.this, R.style.my_dialog);
+                LayoutInflater inflater = HomeActivity.this.getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.tutorial_view_pager, null);
+                dialogBuilder.setView(dialogView);
+                ViewPager viewPager = dialogView.findViewById(R.id.viewPager);
+                viewPager.setAdapter(new TutorialPagerAdapter(getApplicationContext()));
+                TabLayout tabLayout = dialogView.findViewById(R.id.tabLayout);
+                tabLayout.setupWithViewPager(viewPager, true);
+                AlertDialog alertDialog = dialogBuilder.create();
+                alertDialog.show();
+            }
+        });
 
         goToTraining.setOnClickListener(new View.OnClickListener() {
             @Override
