@@ -36,7 +36,7 @@ public class HomeActivity extends AppCompatActivity {
         goToCompetition = (MaterialButton) findViewById(R.id.goToCompetition);
         goToResults = (MaterialButton) findViewById(R.id.goToResults);
         sharedPreferences = getSharedPreferences("com.example.androidgame", MODE_PRIVATE);
-//      sharedPreferences.edit().putBoolean("firstrun", true).apply();
+
         if (sharedPreferences.getBoolean("firstrun", true)) {
             startActivity(new Intent(this, ProfessorRowanActivity.class));
             sharedPreferences.edit().putBoolean("firstrun", false).apply();

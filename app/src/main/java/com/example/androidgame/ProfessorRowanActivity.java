@@ -18,6 +18,7 @@ public class ProfessorRowanActivity extends AppCompatActivity {
     private TextView sorbierText;
     private Thread thread;
     private String string;
+    private GameMusicHandler gameMusicHandler;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -25,6 +26,8 @@ public class ProfessorRowanActivity extends AppCompatActivity {
         setContentView(R.layout.activity_professor_rowan);
 
         sorbierText = (TextView) findViewById(R.id.sorbierText);
+        gameMusicHandler = new GameMusicHandler(this);
+        gameMusicHandler.playRowanTheme();
 
         string = "Bonjour !\nQuelle joie de te rencontrer !\nBienvenue sur \"Qui est ce pokémon ?\"";
 
@@ -61,6 +64,30 @@ public class ProfessorRowanActivity extends AppCompatActivity {
         };
 
         thread.start();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        gameMusicHandler.start();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        gameMusicHandler.pause();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        gameMusicHandler.pause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        gameMusicHandler.pause();
     }
 
 }

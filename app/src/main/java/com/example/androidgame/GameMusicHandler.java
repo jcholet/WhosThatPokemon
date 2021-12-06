@@ -31,6 +31,13 @@ public class GameMusicHandler {
         idButton = soundPool.load(appCompatActivity ,R.raw.button_effect, 1);
     }
 
+    public void playRowanTheme(){
+        if(mediaPlayer.isPlaying()){
+            mediaPlayer.stop();
+        }
+        play(R.raw.rowan_theme);
+    }
+
     public void playHomeTheme(){
         if(mediaPlayer.isPlaying()){
             mediaPlayer.stop();

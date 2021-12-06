@@ -28,6 +28,7 @@
         <entry key="app/src/main/res/drawable/rowan_gradient_background.xml" value="0.4564814814814815" />
         <entry key="app/src/main/res/drawable/score_item_background.xml" value="0.31145833333333334" />
         <entry key="app/src/main/res/drawable/score_item_background_2.xml" value="0.31145833333333334" />
+        <entry key="app/src/main/res/drawable/tutorial_background.xml" value="0.3626673237474808" />
         <entry key="app/src/main/res/font/pokemon_font.xml" value="0.45282051282051283" />
         <entry key="app/src/main/res/layout/activity_competition.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.3141221084692516" />
@@ -42,6 +43,7 @@
         <entry key="app/src/main/res/layout/layout.xml" value="0.24320652173913043" />
         <entry key="app/src/main/res/layout/score_item.xml" value="0.45" />
         <entry key="app/src/main/res/layout/signin_activity.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/tutorial_view_pager.xml" value="0.6097560975609756" />
       </map>
     </option>
   </component>
