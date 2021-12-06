@@ -43,6 +43,8 @@
         <activity android:name=".CompetitionActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".ScoreboardActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 

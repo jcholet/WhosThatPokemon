@@ -16,6 +16,8 @@ public class HomeActivity extends AppCompatActivity {
 
     private SharedPreferences sharedPreferences = null;
     private MaterialButton goToTraining;
+    private MaterialButton goToCompetition;
+    private MaterialButton goToResults;
     private ImageView signOut;
 
     @Override
@@ -29,6 +31,8 @@ public class HomeActivity extends AppCompatActivity {
 
         signOut = (ImageView) findViewById(R.id.signOut);
         goToTraining = (MaterialButton) findViewById(R.id.goToTraining);
+        goToCompetition = (MaterialButton) findViewById(R.id.goToCompetition);
+        goToResults = (MaterialButton) findViewById(R.id.goToResults);
         sharedPreferences = getSharedPreferences("com.example.androidgame", MODE_PRIVATE);
 //      sharedPreferences.edit().putBoolean("firstrun", true).apply();
         if (sharedPreferences.getBoolean("firstrun", true)) {
@@ -40,6 +44,23 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(HomeActivity.this, TrainingActivity.class));
+                finish();
+            }
+        });
+
+        goToCompetition.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(HomeActivity.this, CompetitionActivity.class));
+                finish();
+            }
+        });
+
+        goToResults.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(HomeActivity.this, ScoreboardActivity.class));
+                finish();
             }
         });
 

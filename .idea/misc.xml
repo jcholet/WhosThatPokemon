@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable-v24/ic_back_arrow_green.xml" value="0.31145833333333334" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.438974358974359" />
         <entry key="app/src/main/res/drawable/answer_competition_field.xml" value="0.38177083333333334" />
         <entry key="app/src/main/res/drawable/answer_field.xml" value="0.3260416666666667" />
@@ -10,26 +11,36 @@
         <entry key="app/src/main/res/drawable/box_gradient.xml" value="0.4564814814814815" />
         <entry key="app/src/main/res/drawable/box_gradient_left.xml" value="0.1638888888888889" />
         <entry key="app/src/main/res/drawable/box_gradient_right.xml" value="0.4564814814814815" />
+        <entry key="app/src/main/res/drawable/cross_icon.xml" value="0.31145833333333334" />
+        <entry key="app/src/main/res/drawable/cross_icon_red.xml" value="0.31145833333333334" />
+        <entry key="app/src/main/res/drawable/glass_background.xml" value="0.3260416666666667" />
+        <entry key="app/src/main/res/drawable/glass_opacity.xml" value="0.3260416666666667" />
         <entry key="app/src/main/res/drawable/ic_back_arrow.xml" value="0.3527777777777778" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.438974358974359" />
         <entry key="app/src/main/res/drawable/ic_question_mark.xml" value="0.5" />
         <entry key="app/src/main/res/drawable/ic_signout.xml" value="0.4564814814814815" />
         <entry key="app/src/main/res/drawable/lobby_field.xml" value="0.438974358974359" />
+        <entry key="app/src/main/res/drawable/medal_1.xml" value="0.31145833333333334" />
         <entry key="app/src/main/res/drawable/pixel_button.xml" value="0.438974358974359" />
         <entry key="app/src/main/res/drawable/pokebox.xml" value="0.22592592592592592" />
         <entry key="app/src/main/res/drawable/pokebox_bot.xml" value="0.22592592592592592" />
         <entry key="app/src/main/res/drawable/pokemon_text.xml" value="0.4564814814814815" />
         <entry key="app/src/main/res/drawable/rowan_gradient_background.xml" value="0.4564814814814815" />
+        <entry key="app/src/main/res/drawable/score_item_background.xml" value="0.31145833333333334" />
+        <entry key="app/src/main/res/drawable/score_item_background_2.xml" value="0.31145833333333334" />
         <entry key="app/src/main/res/font/pokemon_font.xml" value="0.45282051282051283" />
-        <entry key="app/src/main/res/layout/activity_competition.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_competition.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.3141221084692516" />
         <entry key="app/src/main/res/layout/activity_lobby.xml" value="0.4296875" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.5911458333333334" />
         <entry key="app/src/main/res/layout/activity_professor_rowan.xml" value="0.137350079767669" />
+        <entry key="app/src/main/res/layout/activity_scoreboard.xml" value="0.29397826445615655" />
         <entry key="app/src/main/res/layout/activity_signin.xml" value="0.23731884057971014" />
         <entry key="app/src/main/res/layout/activity_signup.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/activity_training.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/activity_training.xml" value="0.41671119028897635" />
+        <entry key="app/src/main/res/layout/dialog_view.xml" value="0.3658898943823711" />
         <entry key="app/src/main/res/layout/layout.xml" value="0.24320652173913043" />
+        <entry key="app/src/main/res/layout/score_item.xml" value="0.45" />
         <entry key="app/src/main/res/layout/signin_activity.xml" value="0.33" />
       </map>
     </option>

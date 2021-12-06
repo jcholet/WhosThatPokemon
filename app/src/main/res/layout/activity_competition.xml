@@ -15,6 +15,48 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/reponseCompetition"
+        android:fontFamily="@font/font_pokemon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/pokemonDisplayingCompetition"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginEnd="4dp"
+        android:padding="2dp"
+        app:layout_constraintBottom_toBottomOf="@+id/pokemonDisplayingCompetition"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/pokemonDisplayingCompetition">
+
+        <ImageView
+            android:id="@+id/cross1"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/cross_icon" />
+
+        <ImageView
+            android:id="@+id/cross2"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/cross_icon" />
+
+        <ImageView
+            android:id="@+id/cross3"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/cross_icon" />
+
+    </LinearLayout>
+
+
+
+    <TextView
         android:id="@+id/scoreInARowCompetition"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -23,50 +65,50 @@
         android:text="Score : 0"
         android:textColor="#3264a7"
         android:textSize="14dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView5"
+        app:layout_constraintBottom_toTopOf="@+id/pokemonDisplayingCompetition"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.96"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/backInHomeCompetition"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.225" />
+        app:layout_constraintVertical_bias="0.066" />
 
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/pokedex"
+    <View
+        android:id="@+id/view"
+        android:layout_width="250dp"
+        android:layout_height="308.75dp"
+        android:alpha="0.85"
+        android:background="@drawable/glass_background"
         app:layout_constraintBottom_toBottomOf="@+id/pokemonDisplayingCompetition"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/pokemonDisplayingCompetition"
+        app:layout_constraintStart_toStartOf="@+id/pokemonDisplayingCompetition"
         app:layout_constraintTop_toTopOf="@+id/pokemonDisplayingCompetition" />
 
     <ImageView
         android:id="@+id/pokemonDisplayingCompetition"
-        android:layout_width="168dp"
-        android:layout_height="207dp"
+        android:layout_width="200dp"
+        android:layout_height="247dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.251" />
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintVertical_bias="0.251"/>
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/answerPokemonCompetition"
         android:layout_width="256dp"
         android:layout_height="50dp"
-        android:background="@drawable/answer_competition_field"
+        android:background="@drawable/glass_background"
         android:fontFamily="@font/font_pokemon"
-        android:paddingStart="8dp"
-        android:layout_marginBottom="5dp"
-        android:textColor="#3264a7"
         android:imeOptions="actionSend"
         android:inputType="text"
+        android:paddingStart="8dp"
+        android:textColor="#3264a7"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView5"
-        app:layout_constraintVertical_bias="0.221" />
+        app:layout_constraintTop_toBottomOf="@+id/pokemonDisplayingCompetition"
+        app:layout_constraintVertical_bias="0.673" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
