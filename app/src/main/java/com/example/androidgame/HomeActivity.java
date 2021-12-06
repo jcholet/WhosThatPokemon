@@ -19,6 +19,7 @@ public class HomeActivity extends AppCompatActivity {
     private MaterialButton goToCompetition;
     private MaterialButton goToResults;
     private ImageView signOut;
+    private GameMusicHandler gameMusicHandler;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,6 +30,7 @@ public class HomeActivity extends AppCompatActivity {
             startActivity(new Intent(this, LobbyActivity.class));
         }
 
+        gameMusicHandler = new GameMusicHandler(this);
         signOut = (ImageView) findViewById(R.id.signOut);
         goToTraining = (MaterialButton) findViewById(R.id.goToTraining);
         goToCompetition = (MaterialButton) findViewById(R.id.goToCompetition);
@@ -40,9 +42,12 @@ public class HomeActivity extends AppCompatActivity {
             sharedPreferences.edit().putBoolean("firstrun", false).apply();
         }
 
+        gameMusicHandler.playHomeTheme();
+
         goToTraining.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                gameMusicHandler.pressingButton();
                 startActivity(new Intent(HomeActivity.this, TrainingActivity.class));
                 finish();
             }
@@ -51,6 +56,7 @@ public class HomeActivity extends AppCompatActivity {
         goToCompetition.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                gameMusicHandler.pressingButton();
                 startActivity(new Intent(HomeActivity.this, CompetitionActivity.class));
                 finish();
             }
@@ -59,6 +65,7 @@ public class HomeActivity extends AppCompatActivity {
         goToResults.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                gameMusicHandler.pressingButton();
                 startActivity(new Intent(HomeActivity.this, ScoreboardActivity.class));
                 finish();
             }
@@ -67,12 +74,37 @@ public class HomeActivity extends AppCompatActivity {
         signOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                gameMusicHandler.pressingButton();
                 FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(HomeActivity.this, LobbyActivity.class));
                 finish();
             }
         });
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        gameMusicHandler.start();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        gameMusicHandler.pause();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        gameMusicHandler.pause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        gameMusicHandler.pause();
     }
 
 }

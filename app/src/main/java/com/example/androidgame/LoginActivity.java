@@ -23,6 +23,7 @@ public class LoginActivity extends AppCompatActivity {
     private MaterialButton signIn;
     private TextInputEditText signInEmail;
     private TextInputEditText signInPassword;
+    private GameMusicHandler gameMusicHandler;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,12 +34,17 @@ public class LoginActivity extends AppCompatActivity {
         signInPassword = (TextInputEditText) findViewById(R.id.signInPassword);
         signIn = (MaterialButton) findViewById(R.id.signIn);
 
+        gameMusicHandler = new GameMusicHandler(this);
+
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuth.signOut();
+
+        gameMusicHandler.playSignInTheme();
 
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                gameMusicHandler.pressingButton();
                 userLogin();
             }
         });
@@ -91,5 +97,29 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        gameMusicHandler.start();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        gameMusicHandler.pause();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        gameMusicHandler.pause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        gameMusicHandler.pause();
     }
 }

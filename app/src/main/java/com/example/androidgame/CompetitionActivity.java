@@ -63,6 +63,7 @@ public class CompetitionActivity extends AppCompatActivity {
     private int score;
     private String stringIdPokemon;
     private int nbErrors;
+    private GameMusicHandler gameMusicHandler;
 
 
     @Override
@@ -71,6 +72,7 @@ public class CompetitionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_competition);
         nbErrors = 0;
         score = 0;
+        gameMusicHandler = new GameMusicHandler(this);
         reponseCompetition = (TextView) findViewById(R.id.reponseCompetition);
         backInHomeCompetition = (ImageView) findViewById(R.id.backInHomeCompetition);
         scoreInARowCompetition = (TextView) findViewById(R.id.scoreInARowCompetition);
@@ -80,12 +82,15 @@ public class CompetitionActivity extends AppCompatActivity {
         cross2 = (ImageView) findViewById(R.id.cross2);
         cross3 = (ImageView) findViewById(R.id.cross3);
 
+        gameMusicHandler.playCompetitionTheme();
+
         loadPokemon();
 
         pokemonDisplayingCompetition.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(state == ANSWER){
+                    gameMusicHandler.pressingButton();
                     loadPokemon();
                     reponseCompetition.setText("");
                     state = PLAYING;
@@ -194,6 +199,7 @@ public class CompetitionActivity extends AppCompatActivity {
         backInHomeCompetition.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                gameMusicHandler.pressingButton();
                 startActivity(new Intent(CompetitionActivity.this, HomeActivity.class));
                 finish();
             }
@@ -284,4 +290,27 @@ public class CompetitionActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        gameMusicHandler.start();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        gameMusicHandler.pause();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        gameMusicHandler.pause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        gameMusicHandler.pause();
+    }
 }

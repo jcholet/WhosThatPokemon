@@ -26,6 +26,7 @@ public class ScoreboardActivity extends AppCompatActivity {
 
     private ListView scoreList;
     private ImageView goBackToHomeScoreboard;
+    private GameMusicHandler gameMusicHandler;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,12 +35,14 @@ public class ScoreboardActivity extends AppCompatActivity {
 
         scoreList = (ListView) findViewById(R.id.scoreList);
         goBackToHomeScoreboard = (ImageView) findViewById(R.id.goBackToHomeScoreboard);
-
+        gameMusicHandler = new GameMusicHandler(this);
+        gameMusicHandler.playScoreboardTheme();
         getData();
 
         goBackToHomeScoreboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                gameMusicHandler.pressingButton();
                 startActivity(new Intent(ScoreboardActivity.this, HomeActivity.class));
                 finish();
             }
@@ -76,6 +79,30 @@ public class ScoreboardActivity extends AppCompatActivity {
     private void display(ArrayList<Score> scores){
         ScoreboardAdapter findFriendsAdapter = new ScoreboardAdapter(this, scores);
         scoreList.setAdapter(findFriendsAdapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        gameMusicHandler.start();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        gameMusicHandler.pause();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        gameMusicHandler.pause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        gameMusicHandler.pause();
     }
 
 }

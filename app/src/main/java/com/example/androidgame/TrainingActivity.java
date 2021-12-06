@@ -49,6 +49,7 @@ public class TrainingActivity extends AppCompatActivity {
     private String stringIdPokemon;
     private boolean nextOrAnswer;
     private int scoreInARow = 0;
+    private GameMusicHandler gameMusicHandler;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,6 +62,8 @@ public class TrainingActivity extends AppCompatActivity {
         reponseTraining = (TextView) findViewById(R.id.reponseTraining);
         showReponseTraining = (MaterialButton) findViewById(R.id.showReponseTraining);
         scoreInARowTraining = (TextView) findViewById(R.id.scoreInARowTraining);
+        gameMusicHandler = new GameMusicHandler(this);
+        gameMusicHandler.playTrainingTheme();
 
         loadPokemon();
 
@@ -99,6 +102,7 @@ public class TrainingActivity extends AppCompatActivity {
         showReponseTraining.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                gameMusicHandler.pressingButton();
                 if(nextOrAnswer == NEXT){
                     loadPokemon();
                     answerPokemon.setEnabled(true);
@@ -113,6 +117,7 @@ public class TrainingActivity extends AppCompatActivity {
         backInHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                gameMusicHandler.pressingButton();
                 startActivity(new Intent(TrainingActivity.this, HomeActivity.class));
                 finish();
             }
@@ -202,5 +207,29 @@ public class TrainingActivity extends AppCompatActivity {
         } else {
             return false;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        gameMusicHandler.start();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        gameMusicHandler.pause();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        gameMusicHandler.pause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        gameMusicHandler.pause();
     }
 }
