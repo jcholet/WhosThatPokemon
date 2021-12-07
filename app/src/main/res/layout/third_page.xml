@@ -36,6 +36,7 @@
             android:layout_marginTop="14dp"
             android:fontFamily="@font/font_pokemon"
             android:gravity="center"
+            android:background="@drawable/tutorial_text_background"
             android:text="Vous pouvez faire trois erreurs maximum, vous ne pouvez pas afficher la réponse.\n\n Si vous battez les meilleurs scores, vous serez affiché dans le scoreboard !"
             android:textColor="#adc0b0"
             android:textSize="22sp"/>
