@@ -2,16 +2,10 @@ package com.example.androidgame;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
-import com.google.gson.Gson;
-
-import java.util.concurrent.CountDownLatch;
 
 public class ProfessorRowanActivity extends AppCompatActivity {
 
@@ -25,12 +19,16 @@ public class ProfessorRowanActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_professor_rowan);
 
-        sorbierText = (TextView) findViewById(R.id.sorbierText);
+        //On instancie le gestionnaire de musique et tous les attributs du layout
+        sorbierText = findViewById(R.id.sorbierText);
         gameMusicHandler = new GameMusicHandler(this);
+
+        //On joue la musique liée à l'activité
         gameMusicHandler.playRowanTheme();
 
         string = "Bonjour !\nQuelle joie de te rencontrer !\nBienvenue sur \"Qui est ce pokémon ?\"";
 
+        //Thread pour que le texte s'affiche petit à petit (comme au début de pokémon diamant)
         thread = new Thread() {
             @Override
             public void run() {

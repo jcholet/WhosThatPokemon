@@ -10,7 +10,7 @@ import androidx.viewpager.widget.PagerAdapter;
 
 public class TutorialPagerAdapter extends PagerAdapter {
 
-    private Context context;
+    private final Context context;
 
     public TutorialPagerAdapter(Context context){
         this.context = context;

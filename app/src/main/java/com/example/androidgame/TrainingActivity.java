@@ -1,24 +1,16 @@
 package com.example.androidgame;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.DocumentReference;
@@ -29,18 +21,17 @@ import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
-import java.net.URI;
 import java.text.Collator;
-import java.util.Locale;
+import java.util.Objects;
 import java.util.Random;
 
 public class TrainingActivity extends AppCompatActivity {
 
     private final static boolean NEXT = true;
     private final static boolean ANSWER = false;
+    private static final int NB_POKEMON = 808;
 
     private ImageView pokemonDisplaying;
-    private ImageView backInHome;
     private TextInputEditText answerPokemon;
     private TextView reponseTraining;
     private TextView scoreInARowTraining;
@@ -56,81 +47,99 @@ public class TrainingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_training);
 
-        pokemonDisplaying = (ImageView) findViewById(R.id.pokemonDisplaying);
-        answerPokemon = (TextInputEditText) findViewById(R.id.answerPokemon);
-        backInHome = (ImageView) findViewById(R.id.backInHome);
-        reponseTraining = (TextView) findViewById(R.id.reponseTraining);
-        showReponseTraining = (MaterialButton) findViewById(R.id.showReponseTraining);
-        scoreInARowTraining = (TextView) findViewById(R.id.scoreInARowTraining);
+        //On instantie les attributs du Layout et le gestionnaire pour la musique
+        pokemonDisplaying = findViewById(R.id.pokemonDisplaying);
+        answerPokemon = findViewById(R.id.answerPokemon);
+        ImageView backInHome = findViewById(R.id.backInHome);
+        reponseTraining = findViewById(R.id.reponseTraining);
+        showReponseTraining = findViewById(R.id.showReponseTraining);
+        scoreInARowTraining = findViewById(R.id.scoreInARowTraining);
         gameMusicHandler = new GameMusicHandler(this);
+
+        //On joue le theme de l'entrainement
         gameMusicHandler.playTrainingTheme();
 
+        //On charge le pokémon
         loadPokemon();
 
+        //Quand le text input est édité
+        answerPokemon.setOnEditorActionListener((textView, i, keyEvent) -> {
+            //Si l'utilisateur clique sur le bouton send sur le clavier
+            if(i == EditorInfo.IME_ACTION_SEND){
+                //On récupère la référence pour arriver jusqu'au bon pokémon
+                DocumentReference pokemonRef = FirebaseFirestore.getInstance().collection("Pokemons").document(String.valueOf(idPokemon));
+                //On récupère le pokémon dans Firestore et quand on l'a bien récupéré
+                pokemonRef.get().addOnCompleteListener(task -> {
+                    //On vérifie si la tache a bien réussi
+                    if(task.isSuccessful()){
 
-        answerPokemon.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if(i == EditorInfo.IME_ACTION_SEND){
-                    DocumentReference pokemonRef = FirebaseFirestore.getInstance().collection("Pokemons").document(String.valueOf(idPokemon));
-                    pokemonRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if(task.isSuccessful()){
-                                DocumentSnapshot documentSnapshot = task.getResult();
-                                Collator instance = Collator.getInstance();
-                                instance.setStrength(Collator.NO_DECOMPOSITION);
-                                Log.d("PbString", answerPokemon.getText().toString());
-                                Log.d("PbString", documentSnapshot.get("frenchName").toString().toLowerCase());
-                                if(instance.compare(documentSnapshot.get("frenchName").toString().toLowerCase(), answerPokemon.getText().toString()) == 0){
-                                    showAnswers();
-                                    answerPokemon.getText().clear();
-                                    scoreInARow++;
-                                    scoreInARowTraining.setText("Score :" + String.valueOf(scoreInARow));
-                                } else {
-                                    scoreInARow = 0;
-                                    scoreInARowTraining.setText("Score :" + String.valueOf(scoreInARow));
-                                }
-                            }
+                        //On récupère ce que la tache nous renvoie
+                        DocumentSnapshot documentSnapshot = task.getResult();
+
+                        //Grâce a collator, on supprime tous les accents pour rendre le jeu un peu plus facile (Les accents me semblaient être trop compliqués)
+                        Collator instance = Collator.getInstance();
+                        instance.setStrength(Collator.NO_DECOMPOSITION);
+
+                        //On compare le nom dans la BDD et le nom que l'utilisateur a entré dans le text input
+                        if(instance.compare(Objects.requireNonNull(Objects.requireNonNull(documentSnapshot).get("frenchName")).toString().toLowerCase(), Objects.requireNonNull(answerPokemon.getText()).toString()) == 0){
+                            //Si ce sont les deux mêmes, la réponse est affiché et le score augmente, on clear aussi la réponse
+                            showAnswers();
+                            answerPokemon.getText().clear();
+                            scoreInARow++;
+                        } else {
+                            //Sinon on met le score à 0
+                            scoreInARow = 0;
                         }
-                    });
-                }
-                return false;
+                        scoreInARowTraining.setText("Score :" + String.valueOf(scoreInARow));
+                    }
+                });
+            }
+            return false;
+        });
+
+        showReponseTraining.setOnClickListener(view -> {
+            //On met le son du bouton
+            gameMusicHandler.pressingButton();
+            //Si l'état est next
+            if(nextOrAnswer == NEXT){
+                //On charge un pokemon et on fait en sorte que le text input marche
+                loadPokemon();
+                answerPokemon.setEnabled(true);
+
+                //Si l'état est answer
+            } else if(nextOrAnswer == ANSWER){
+                //On montre la réponse, on remet le score à 0 et on fait en sorte que le text input ne marche plus
+                showAnswers();
+                scoreInARow = 0;
+                answerPokemon.setEnabled(false);
             }
         });
 
-        showReponseTraining.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                gameMusicHandler.pressingButton();
-                if(nextOrAnswer == NEXT){
-                    loadPokemon();
-                    answerPokemon.setEnabled(true);
-                } else if(nextOrAnswer == ANSWER){
-                    showAnswers();
-                    scoreInARow = 0;
-                    answerPokemon.setEnabled(false);
-                }
-            }
-        });
-
-        backInHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                gameMusicHandler.pressingButton();
-                startActivity(new Intent(TrainingActivity.this, HomeActivity.class));
-                finish();
-            }
+        //Quand on clique sur le bouton de retour (en haut à gauche)
+        backInHome.setOnClickListener(view -> {
+            //On met le son du bouton
+            gameMusicHandler.pressingButton();
+            //On revient à l'accueil
+            startActivity(new Intent(TrainingActivity.this, HomeActivity.class));
+            finish();
         });
     }
 
+    /**
+     * A function that load a pokemon and permits to play
+     */
     private void loadPokemon(){
         Random random = new Random();
 
+        //On fait en sorte que le text input soit bien vide
         reponseTraining.setText(null);
+        //On met le bouton à Réponse
         showReponseTraining.setText("Reponse");
-        idPokemon = random.nextInt(808) + 1;
 
+        //On récupère un nombre random entre 1 et 809
+        idPokemon = random.nextInt(NB_POKEMON) + 1;
+
+        //On fait en sorte de récupérer le bon nom pour récupérer l'image (Format : '001.png', '010.png', '100.png')
         if(idPokemon < 10){
             stringIdPokemon = "00"+idPokemon+".png";
         } else if (idPokemon < 100){
@@ -139,52 +148,55 @@ public class TrainingActivity extends AppCompatActivity {
             stringIdPokemon = idPokemon + ".png";
         }
 
+        //On récupère l'image en noir et on la charge dans l'image view
         StorageReference storageReference = FirebaseStorage.getInstance().getReference();
         storageReference.child("black_png")
                 .child(stringIdPokemon)
                 .getDownloadUrl()
-                .addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        Picasso.get().load(uri).into(pokemonDisplaying);
-                    }
-                });
+                .addOnSuccessListener(uri -> Picasso.get().load(uri).into(pokemonDisplaying));
 
+        //On met l'état à ANSWER
         nextOrAnswer = ANSWER;
+        //Pour éviter que le cache explose, on fait en sorte qu'il soit bien vidé
         deleteCache(getApplicationContext());
     }
 
+    /**
+     * A function that show answers to player
+     */
     private void showAnswers(){
         StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+        //On fait en sorte que le text input ne soit plus accessible
         answerPokemon.setEnabled(false);
-        answerPokemon.getText().clear();
+        //On clear le text input
+        Objects.requireNonNull(answerPokemon.getText()).clear();
+        //On récupère et charge l'image du pokémon en couleur et non tout en noir
         storageReference.child("original_png")
                 .child(stringIdPokemon)
                 .getDownloadUrl()
-                .addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        Picasso.get().load(uri).into(pokemonDisplaying);
-                    }
-                });
+                .addOnSuccessListener(uri -> Picasso.get().load(uri).into(pokemonDisplaying));
+
+        //On récupère ici grâce à l'id du pokemon son nom et on l'affiche dans un text, on met le bouton à "Continuer" et l'état à NEXT
         FirebaseFirestore.getInstance()
                 .collection("Pokemons")
                 .document(String.valueOf(idPokemon))
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()){
-                    DocumentSnapshot documentSnapshot = task.getResult();
-                    reponseTraining.setText(documentSnapshot.get("frenchName").toString());
-                    showReponseTraining.setText("Continuer");
-                    nextOrAnswer = NEXT;
-                }
-            }
-        });
+                .addOnCompleteListener(task -> {
+                    if(task.isSuccessful()){
+                        DocumentSnapshot documentSnapshot = task.getResult();
+                        reponseTraining.setText(Objects.requireNonNull(Objects.requireNonNull(documentSnapshot).get("frenchName")).toString());
+                        showReponseTraining.setText("Continuer");
+                        nextOrAnswer = NEXT;
+                    }
+                });
 
     }
 
+    /**
+     * A function that delete cache from this application
+     *
+     * @param context get the context of the application
+     */
     private void deleteCache(Context context) {
         try {
             File dir = context.getCacheDir();
@@ -192,11 +204,17 @@ public class TrainingActivity extends AppCompatActivity {
         } catch (Exception e) { e.printStackTrace();}
     }
 
+    /**
+     * A function that delete a directory of the phone
+     *
+     * @param dir file from phone that we can delete
+     * @return true if successful and false if not
+     */
     private boolean deleteDir(File dir) {
         if (dir != null && dir.isDirectory()) {
             String[] children = dir.list();
-            for (int i = 0; i < children.length; i++) {
-                boolean success = deleteDir(new File(dir, children[i]));
+            for (String child : Objects.requireNonNull(children)) {
+                boolean success = deleteDir(new File(dir, child));
                 if (!success) {
                     return false;
                 }

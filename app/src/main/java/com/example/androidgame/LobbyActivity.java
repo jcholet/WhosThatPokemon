@@ -2,7 +2,6 @@ package com.example.androidgame;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,8 +10,6 @@ import com.google.android.material.button.MaterialButton;
 
 public class LobbyActivity extends AppCompatActivity {
 
-    private MaterialButton goToSignIn;
-    private MaterialButton goToSignUp;
     private GameMusicHandler gameMusicHandler;
 
     @Override
@@ -20,27 +17,28 @@ public class LobbyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lobby);
 
+        //On instancie le gestionnaire de musique et tous les attributs du layout
         gameMusicHandler = new GameMusicHandler(this);
-        goToSignIn = (MaterialButton) findViewById(R.id.goToSignIn);
-        goToSignUp = (MaterialButton) findViewById(R.id.goToSignUp);
+        MaterialButton goToSignIn = findViewById(R.id.goToSignIn);
+        MaterialButton goToSignUp = findViewById(R.id.goToSignUp);
         gameMusicHandler.playLobbyTheme();
 
-        goToSignIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                gameMusicHandler.pressingButton();
-                startActivity(new Intent(LobbyActivity.this, LoginActivity.class));
-                finish();
-            }
+        //Quand on clique sur le bouton "Se connecter"
+        goToSignIn.setOnClickListener(view -> {
+            //On joue l'effet sonore
+            gameMusicHandler.pressingButton();
+            //On accède à l'écran de connexion
+            startActivity(new Intent(LobbyActivity.this, LoginActivity.class));
+            finish();
         });
 
-        goToSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                gameMusicHandler.pressingButton();
-                startActivity(new Intent(LobbyActivity.this, SignUpActivity.class));
-                finish();
-            }
+        //Quand on clique sur le bouton "S'inscrire"
+        goToSignUp.setOnClickListener(view -> {
+            //On joue l'effet sonore
+            gameMusicHandler.pressingButton();
+            //On accède à l'écran d'inscription
+            startActivity(new Intent(LobbyActivity.this, SignUpActivity.class));
+            finish();
         });
 
     }

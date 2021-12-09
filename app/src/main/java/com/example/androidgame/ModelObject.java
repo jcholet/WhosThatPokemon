@@ -2,6 +2,8 @@ package com.example.androidgame;
 
 public enum ModelObject {
 
+    //Enumération pour le view pager
+
     FIRST_PAGE(R.string.first_page, R.layout.first_page),
     SECOND_PAGE(R.string.second_page, R.layout.second_page),
     THIRD_PAGE(R.string.third_page, R.layout.third_page);

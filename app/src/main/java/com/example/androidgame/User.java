@@ -1,11 +1,10 @@
 package com.example.androidgame;
 
-import java.util.ArrayList;
-
 public class User {
 
-    private String pseudo, mail;
-    private String uid;
+    private final String pseudo;
+    private final String mail;
+    private final String uid;
 
 
     public User(String pseudo, String mail, String uid) {

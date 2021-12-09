@@ -18,12 +18,6 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private SharedPreferences sharedPreferences = null;
-    private MaterialButton goToTraining;
-    private MaterialButton goToCompetition;
-    private MaterialButton goToResults;
-    private ImageView signOut;
-    private ImageView help;
     private GameMusicHandler gameMusicHandler;
 
     @Override
@@ -31,79 +25,91 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        //Si l'utilisateur n'est pas connecté sur firebase, on le renvoie au lobby
         if(FirebaseAuth.getInstance().getCurrentUser() ==  null){
             startActivity(new Intent(this, LobbyActivity.class));
         }
 
+        //On instancie le gestionnaire de musique et tous les attributs du layout
         gameMusicHandler = new GameMusicHandler(this);
-        signOut = (ImageView) findViewById(R.id.signOut);
-        goToTraining = (MaterialButton) findViewById(R.id.goToTraining);
-        goToCompetition = (MaterialButton) findViewById(R.id.goToCompetition);
-        goToResults = (MaterialButton) findViewById(R.id.goToResults);
-        help = (ImageView) findViewById(R.id.help);
+        ImageView signOut = findViewById(R.id.signOut);
+        MaterialButton goToTraining = findViewById(R.id.goToTraining);
+        MaterialButton goToCompetition = findViewById(R.id.goToCompetition);
+        MaterialButton goToResults = findViewById(R.id.goToResults);
+        ImageView help = findViewById(R.id.help);
 
-        sharedPreferences = getSharedPreferences("com.example.androidgame", MODE_PRIVATE);
+        //On récupère les préférences de notre jeu
+        SharedPreferences sharedPreferences = getSharedPreferences("com.example.androidgame", MODE_PRIVATE);
 
+        //S'il s'agit de la première fois qu'on l'utilise
         if (sharedPreferences.getBoolean("firstrun", true)) {
+            //On lance la ProfessorRowanActivity (Explication du jeu)
             startActivity(new Intent(this, ProfessorRowanActivity.class));
+            //On passe first run à faux
             sharedPreferences.edit().putBoolean("firstrun", false).apply();
         }
 
+        //On joue la musique liée à l'activity
         gameMusicHandler.playHomeTheme();
 
-        help.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(HomeActivity.this, R.style.my_dialog);
-                LayoutInflater inflater = HomeActivity.this.getLayoutInflater();
-                View dialogView = inflater.inflate(R.layout.tutorial_view_pager, null);
-                dialogBuilder.setView(dialogView);
-                ViewPager viewPager = dialogView.findViewById(R.id.viewPager);
-                viewPager.setAdapter(new TutorialPagerAdapter(getApplicationContext()));
-                TabLayout tabLayout = dialogView.findViewById(R.id.tabLayout);
-                tabLayout.setupWithViewPager(viewPager, true);
-                AlertDialog alertDialog = dialogBuilder.create();
-                alertDialog.show();
-            }
+        //Quand on clique sur le '?'
+        help.setOnClickListener(view -> {
+
+            //On crée une pop up avec dedans un view pager (3 pages et on peut slider entre)
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(HomeActivity.this, R.style.my_dialog);
+            LayoutInflater inflater = HomeActivity.this.getLayoutInflater();
+            View dialogView = inflater.inflate(R.layout.tutorial_view_pager, null);
+            dialogBuilder.setView(dialogView);
+            ViewPager viewPager = dialogView.findViewById(R.id.viewPager);
+            viewPager.setAdapter(new TutorialPagerAdapter(getApplicationContext()));
+            TabLayout tabLayout = dialogView.findViewById(R.id.tabLayout);
+            tabLayout.setupWithViewPager(viewPager, true);
+            AlertDialog alertDialog = dialogBuilder.create();
+            alertDialog.show();
         });
 
-        goToTraining.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                gameMusicHandler.pressingButton();
-                startActivity(new Intent(HomeActivity.this, TrainingActivity.class));
-                finish();
-            }
+        //Quand on clique sur le bouton "Entrainement"
+        goToTraining.setOnClickListener(view -> {
+            //On joue l'effet sonore
+            gameMusicHandler.pressingButton();
+            //On va au mode Entrainement
+            startActivity(new Intent(HomeActivity.this, TrainingActivity.class));
+            finish();
         });
 
-        goToCompetition.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                gameMusicHandler.pressingButton();
-                startActivity(new Intent(HomeActivity.this, CompetitionActivity.class));
-                finish();
-            }
+        //Quand on clique sur le bouton "Competition"
+        goToCompetition.setOnClickListener(view -> {
+            //On joue l'effet sonore
+            gameMusicHandler.pressingButton();
+            //On va au mode entrainement
+            startActivity(new Intent(HomeActivity.this, CompetitionActivity.class));
+            finish();
         });
 
-        goToResults.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                gameMusicHandler.pressingButton();
-                startActivity(new Intent(HomeActivity.this, ScoreboardActivity.class));
-                finish();
-            }
+        //Quand on clique sur le bouton "Résultats"
+        goToResults.setOnClickListener(view -> {
+            //On joue l'effet sonore
+            gameMusicHandler.pressingButton();
+            //On accède au tableau des scores (avec les 10 meilleurs scores globaux)
+            startActivity(new Intent(HomeActivity.this, ScoreboardActivity.class));
+            finish();
         });
 
-        signOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                gameMusicHandler.pressingButton();
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(HomeActivity.this, LobbyActivity.class));
-                finish();
-            }
+        //Quand on clique sur le bouton pour se déconnecter
+        signOut.setOnClickListener(view -> {
+            //On joue l'effet sonore
+            gameMusicHandler.pressingButton();
+            //On déconnecte l'utilisateur
+            FirebaseAuth.getInstance().signOut();
+            //On accède au lobby (choix entre se connecter et s'inscrire)
+            startActivity(new Intent(HomeActivity.this, LobbyActivity.class));
+            finish();
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
     }
 
     @Override
