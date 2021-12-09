@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AndroidGame</string>
+    <string name="app_name">Who\'s that pokemon</string>
     <string name="signin">Se connecter</string>
     <string name="signup">S\'inscrire</string>
     <string name="mail"> E-mail </string>
@@ -11,4 +11,5 @@
     <string name="first_page">First page</string>
     <string name="second_page">Second page</string>
     <string name="third_page">Third page</string>
+    <string name="fourth_page">Fourth page</string>
 </resources>
